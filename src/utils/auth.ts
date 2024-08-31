@@ -50,6 +50,7 @@ export const authOptions = {
     signIn: '/auth/signin',
   },
   secret: process.env.NEXTAUTH_SECRET,
+  url: process.env.NEXTAUTH_URL,
 }
 
 export default NextAuth(authOptions)

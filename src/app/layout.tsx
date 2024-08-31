@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import { Providers } from "./providers";
+import "../styles/globals.scss";
+import { notoSerifThai, rubik } from "@/styles/fonts/fonts";
+import DefaultLayout from "@/components/default-layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang='en' className={`${rubik.className} ${notoSerifThai.className}`}>
+      <body className={inter.className}>
+        <Providers>
+          {/* <DefaultLayout> */}
+            {children}
+          {/* </DefaultLayout> */}
+        </Providers>
+      </body>
     </html>
   );
 }

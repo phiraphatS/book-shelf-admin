@@ -16,10 +16,12 @@ import { ShoppingCart } from 'lucide-react';
 
 const BookHeaderComponent: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [isClient, setIsClient] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
+    setIsClient(true);
     const search = searchParams.get('search');
     setSearchTerm(search || '');
   }, [searchParams]);
@@ -37,6 +39,10 @@ const BookHeaderComponent: React.FC = () => {
     setSearchTerm('');
     router.push(window.location.pathname);
   };
+
+  if (!isClient) {
+    return null; // or a loading placeholder
+  }
 
   return (
     <Flex justifyContent="space-between" alignItems="center" mb={8}>

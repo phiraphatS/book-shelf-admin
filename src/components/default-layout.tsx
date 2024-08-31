@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex, VStack, IconButton, Text, List, ListItem, useToast } from "@chakra-ui/react"
+import { Box, Flex, VStack, IconButton, Text, List, ListItem, useToast, useDisclosure } from "@chakra-ui/react"
 import { InfoIcon, CloseIcon, HamburgerIcon } from "@chakra-ui/icons"
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -19,7 +19,7 @@ const MenuItem = ({ children, isActive = false, onClick }: { children: React.Rea
   </ListItem>
 );
 
-const Sidebar = ({ isOpen, onClose, children }: { isOpen: boolean, onClose: () => void, children: React.ReactNode }) => {
+const Sidebar = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
   const router = useRouter();
   const toast = useToast();
 
@@ -108,9 +108,6 @@ const Sidebar = ({ isOpen, onClose, children }: { isOpen: boolean, onClose: () =
           top={4}
           left={4}
         />
-        <Box p={6}>
-          {children}
-        </Box>
       </Box>
       {isOpen && (
         <Box
@@ -129,4 +126,26 @@ const Sidebar = ({ isOpen, onClose, children }: { isOpen: boolean, onClose: () =
   );
 };
 
-export default Sidebar;
+export default function DefaultLayout({ children }: { children: React.ReactNode }) {
+  const { isOpen, onToggle, onClose } = useDisclosure()
+
+  return (
+    <Flex direction={{ base: "column", lg: "row" }} minHeight="100vh">
+      <Sidebar isOpen={isOpen} onClose={onClose} />
+      <Box flex={1} overflowY="auto">
+
+        <IconButton
+          aria-label="Menu"
+          icon={<HamburgerIcon />}
+          variant="ghost"
+          onClick={onToggle}
+          display={{ base: "flex", lg: "none" }}
+        />
+        {/* <Header onToggleSidebar={onToggle} /> */}
+        <Box p={6}>
+          {children}
+        </Box>
+      </Box>
+    </Flex>
+  )
+}
